@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Haney Strategic Offer Analysis | Iconoclastic Capital</title>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --deep-teal: #1C5355;
+  --accent-teal: #4EB8BC;
+  --warm-white: #FAF9F6;
+  --off-white: #F2F0EB;
+  --dark: #1A1A1A;
+  --muted: #6B7280;
+  --red: #C0392B;
+  --yellow: #D4A017;
+  --green: #27AE60;
+  --walmart: #0071DC;
+  --macys: #E21A2C;
+  --card: #FFFFFF;
+  --border: #E5E2DB;
+  --font-display: 'Satoshi', sans-serif;
+  --font-body: 'General Sans', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--warm-white);
+  color: var(--dark);
+  -webkit-font-smoothing: antialiased;
+}
+
+.container { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+
+/* Header */
+.header {
+  background: var(--deep-teal);
+  padding: 32px 0 24px;
+  color: #fff;
+}
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.header-brand {
+  font-family: var(--font-display);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--accent-teal);
+  font-weight: 700;
+}
+.header-date { font-size: 11px; color: rgba(255,255,255,0.45); }
+.header-title {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+.header-sub { font-size: 13px; color: rgba(255,255,255,0.6); font-weight: 400; }
+
+/* Tabs */
+.tabs-bar {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.tabs-inner { display: flex; gap: 0; }
+.tab-btn {
+  padding: 14px 24px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+}
+.tab-btn:hover { color: var(--deep-teal); }
+.tab-btn.active {
+  color: var(--deep-teal);
+  border-bottom-color: var(--accent-teal);
+}
+
+/* Content */
+.content { padding: 24px 0 56px; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* Cards */
+.card {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 28px;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.card.accent { border-top: 3px solid var(--accent-teal); }
+
+/* Utility */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.gap-24 { display: flex; flex-direction: column; gap: 24px; }
+.gap-20 { display: flex; flex-direction: column; gap: 20px; }
+
+.section-label {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--deep-teal);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+}
+
+.stat-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin-bottom: 4px;
+  text-align: center;
+}
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 900;
+  text-align: center;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.stat-sub {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 2px;
+}
+
+/* Company badges */
+.company-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-family: var(--font-display);
+  font-weight: 900;
+}
+.company-badge.wmt { background: rgba(0,113,220,0.1); color: var(--walmart); }
+.company-badge.m { background: rgba(226,26,44,0.1); color: var(--macys); }
+
+.company-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.company-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--dark);
+}
+.company-role { font-size: 12px; color: var(--muted); }
+
+.info-box {
+  margin-top: 16px;
+  padding: 12px 14px;
+  background: var(--off-white);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* Bars */
+.bar-track {
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--off-white);
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  animation: growBar 0.8s ease-out both;
+}
+@keyframes growBar { from { width: 0; } }
+
+/* Year toggle */
+.year-toggle { display: flex; gap: 8px; }
+.year-btn {
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--dark);
+  font-weight: 600;
+  font-size: 13px;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.year-btn.active {
+  background: var(--deep-teal);
+  color: #fff;
+  border-color: var(--deep-teal);
+}
+
+/* Severity badges */
+.severity-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.severity-badge .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+.severity-badge.red { background: rgba(192,57,43,0.08); color: var(--red); border: 1px solid rgba(192,57,43,0.2); }
+.severity-badge.red .dot { background: var(--red); }
+.severity-badge.yellow { background: rgba(212,160,23,0.08); color: var(--yellow); border: 1px solid rgba(212,160,23,0.2); }
+.severity-badge.yellow .dot { background: var(--yellow); }
+.severity-badge.green { background: rgba(39,174,96,0.08); color: var(--green); border: 1px solid rgba(39,174,96,0.2); }
+.severity-badge.green .dot { background: var(--green); }
+
+.tier-badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 8px;
+  border-radius: 8px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Issue rows */
+.issue-row {
+  background: var(--card);
+  border-radius: 10px;
+  padding: 14px 18px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.issue-row:hover { border-color: var(--accent-teal); }
+.issue-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.issue-name {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dark);
+}
+.issue-section {
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.issue-chevron {
+  font-size: 16px;
+  color: var(--muted);
+  transition: transform 0.2s;
+}
+.issue-chevron.open { transform: rotate(180deg); }
+.issue-detail {
+  display: none;
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--off-white);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--dark);
+  line-height: 1.6;
+}
+.issue-detail.open { display: block; }
+
+/* Filter buttons */
+.filter-bar { display: flex; gap: 6px; flex-wrap: wrap; }
+.filter-btn {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--dark);
+  font-weight: 600;
+  font-size: 12px;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.filter-btn.active {
+  background: var(--deep-teal);
+  color: #fff;
+  border-color: var(--deep-teal);
+}
+
+/* Risk rows */
+.risk-grid {
+  display: grid;
+  grid-template-columns: 2fr auto 3fr;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+}
+.risk-name { font-size: 13px; font-weight: 600; color: var(--dark); }
+.risk-sev {
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+.risk-mit { font-size: 12px; color: var(--muted); }
+
+/* Stock table */
+.stock-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+}
+.stock-cell {
+  padding: 10px 12px;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+}
+.stock-header {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 8px 12px;
+  border-bottom: 2px solid var(--deep-teal);
+}
+
+/* Verdict */
+.verdict-items { display: flex; flex-direction: column; gap: 10px; }
+.verdict-item {
+  display: flex;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.verdict-arrow { font-weight: 700; flex-shrink: 0; }
+
+.callout {
+  margin-top: 16px;
+  padding: 16px 18px;
+  background: rgba(28,83,85,0.05);
+  border-radius: 8px;
+  border-left: 3px solid var(--accent-teal);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--deep-teal);
+  line-height: 1.6;
+}
+
+.disclaimer {
+  text-align: center;
+  padding: 8px 0;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* Delta card */
+.delta-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.delta-value {
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+.delta-context {
+  text-align: right;
+  max-width: 340px;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* Recovery timeline */
+.timeline-bar {
+  position: relative;
+  height: 40px;
+  flex: 1;
+}
+.timeline-track {
+  position: absolute;
+  top: 0;
+  height: 8px;
+  border-radius: 4px;
+}
+.timeline-label {
+  position: absolute;
+  top: 16px;
+  font-size: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .header-title { font-size: 22px; }
+  .delta-card { flex-direction: column; gap: 12px; }
+  .delta-context { text-align: left; max-width: none; }
+  .risk-grid { grid-template-columns: 1fr; gap: 6px; }
+  .stock-grid { font-size: 12px; }
+  .issue-header { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="container">
+    <div class="header-top">
+      <div class="header-brand">Iconoclastic Capital Management</div>
+      <div class="header-date">February 23, 2026</div>
+    </div>
+    <div class="header-title">Jillian Haney: Strategic Offer Analysis</div>
+    <div class="header-sub">Walmart Group Director vs. Macy's SVP, Creative & Production</div>
+  </div>
+</div>
+
+<div class="tabs-bar">
+  <div class="container">
+    <div class="tabs-inner" id="tabBar"></div>
+  </div>
+</div>
+
+<div class="content">
+  <div class="container" id="panels"></div>
+</div>
+
+<script>
+const TABS = ["Overview", "Comp Deep Dive", "Contract Flags", "Risk Matrix", "Verdict"];
+let activeTab = 0;
+let activeYear = "year1";
+let activeFilter = "all";
+let expandedIssue = -1;
+
+const fmt = n => "$" + n.toLocaleString();
+
+const compData = {
+  year1: { walmart: { base:339000, bonus:135600, equity:150000, signon:0, total:624600 }, macys: { base:337500, bonus:135000, equity:0, signon:200000, total:672500 } },
+  year2: { walmart: { base:349170, bonus:139668, equity:80000, signon:0, total:568838 }, macys: { base:450000, bonus:180000, equity:83333, signon:105000, total:818333 } },
+  year3: { walmart: { base:359611, bonus:143844, equity:80000, signon:0, total:583455 }, macys: { base:463500, bonus:185400, equity:147000, signon:0, total:795900 } },
+};
+
+const yearLabels = { year1:"Year 1", year2:"Year 2", year3:"Year 3+" };
+const yearContext = {
+  year1: "Year 1 is roughly a wash. The sign-on replaces the equity stream, but after tax the sign-on nets ~$130K vs. WMT RSUs at ~$150K.",
+  year2: "Year 2 is where Macy's pulls away decisively. The $111K base salary differential is the engine, and the second sign-on tranche adds fuel.",
+  year3: "At steady state, Macy's represents ~$212K/year more. Over 5 years, that's $1M+ in cumulative additional compensation."
+};
+
+const stockData = [
+  { metric:"Price", wmt:"$122.99", m:"$21.77" },
+  { metric:"Market Cap", wmt:"~$980B", m:"~$6.1B" },
+  { metric:"P/E Ratio", wmt:"40+", m:"12.9" },
+  { metric:"52-Week Range", wmt:"$79.81 to $134.69", m:"$9.76 to $24.41" },
+  { metric:"Analyst View", wmt:"Buy", m:"Hold" },
+  { metric:"Dividend Yield", wmt:"~1.1%", m:"~3.3%" },
+];
+
+const contractIssues = [
+  { severity:"red", item:'Non-compete scope: "any capacity" at 12 named companies', section:"Section 2", tier:1, detail:'Bars work at Amazon (inc. AWS, Twitch, MGM, Whole Foods), Target, Walmart and 9 others in ANY role, not just creative. Overly broad for a creative executive.' },
+  { severity:"red", item:"Named companies list includes Amazon subsidiaries", section:"Section 2", tier:1, detail:"Amazon encompasses AWS, Twitch, MGM, Whole Foods, all prohibited. Working as a creative director at Twitch would be barred." },
+  { severity:"red", item:"Restricted territory: entire United States", section:"Section 1c", tier:1, detail:"Nationwide restriction for a centralized creative/production role is disproportionate. Should be limited to NYC metro or deleted entirely." },
+  { severity:"red", item:"Court reformation / blue pencil clause", section:"Section 7f", tier:1, detail:"Allows courts to rewrite an overbroad non-compete to max permitted scope rather than voiding it. Eliminates the candidate's primary leverage." },
+  { severity:"red", item:"Sign-on repayment at gross (not net) in different tax year", section:"Para 3b", tier:1, detail:"If departure in a different tax year: repay $185K out of pocket, wait for ~$65K tax refund. Creates a ~$120K cash shortfall." },
+  { severity:"yellow", item:"Sign-on clawback: no pro-rata reduction", section:"Para 3", tier:2, detail:"100% repayment whether leaving at month 1 or month 23. Request 1/24th monthly reduction." },
+  { severity:"yellow", item:"Two-year clawback per installment (effectively 3-year handcuff)", section:"Para 3", tier:2, detail:"Second tranche ($105K, paid ~Mar 2027) doesn't vest until Mar 2029. Request single 2-year clock from start." },
+  { severity:"yellow", item:"Non-solicitation: 24 months (double the non-compete)", section:"Section 3", tier:2, detail:"Cannot hire former Macy's colleagues for 2 full years. Should align with 12-month non-compete." },
+  { severity:"yellow", item:"Severance plan can be amended or terminated", section:"SESP", tier:2, detail:"Company reserves right to amend or terminate the plan. Request 3-year protection side letter." },
+  { severity:"yellow", item:"Ohio governing law (employer-friendly)", section:"Section 7", tier:2, detail:"NY is increasingly hostile to non-competes; Ohio is more employer-friendly. Negotiate for NY law." },
+  { severity:"yellow", item:"STI/LTI: fully discretionary, no guaranteed minimums", section:"Offer Letter", tier:2, detail:"The 40% bonus target and $250K LTI can be reduced or eliminated with no recourse." },
+  { severity:"yellow", item:"401(k) match: 1 year waiting period", section:"Offer Letter", tier:3, detail:"~$11,500/year delayed. Request immediate eligibility or cash supplement." },
+  { severity:"yellow", item:"Disclosure obligation to future employers", section:"Section 7h", tier:3, detail:"Must furnish non-compete to any new employer for 18 months. Could chill hiring interest." },
+  { severity:"yellow", item:"Macy's unilateral assignment rights", section:"Section 8", tier:3, detail:"If Macy's is acquired, the acquirer inherits non-compete enforcement. Request consent requirement." },
+  { severity:"green", item:"Base salary: $450,000", section:"Offer Letter", tier:null, detail:"Standard for SVP at a major retailer." },
+  { severity:"green", item:"Severance: 18 months base ($675K lump sum)", section:"SESP", tier:null, detail:"Above market median for SVP level. Single lump sum is preferable." },
+  { severity:"green", item:"COBRA: 12 months company-paid", section:"SESP", tier:null, detail:"Standard and reasonable." },
+  { severity:"green", item:'"Cause" definition: reasonable', section:"SESP", tier:null, detail:"Requires material breach, not minor infractions. Standard." },
+  { severity:"green", item:"Equity vesting during 12-month non-compete", section:"Non-Compete", tier:null, detail:"Meaningful consideration for the restriction. Positive provision." },
+];
+
+const sevLabels = { red:"Escalate", yellow:"Negotiate", green:"Acceptable" };
+const tierLabels = { 1:"Must-Have", 2:"Should-Have", 3:"Nice-to-Have" };
+const tierColors = { 1:"var(--red)", 2:"var(--yellow)", 3:"var(--muted)" };
+
+function renderTabs() {
+  const bar = document.getElementById("tabBar");
+  bar.innerHTML = TABS.map((t,i) =>
+    `<button class="tab-btn${i===activeTab?" active":""}" onclick="switchTab(${i})">${t}</button>`
+  ).join("");
+}
+
+function switchTab(i) {
+  activeTab = i;
+  expandedIssue = -1;
+  renderTabs();
+  renderPanels();
+}
+
+function renderPanels() {
+  const el = document.getElementById("panels");
+  const renderers = [renderOverview, renderComp, renderContract, renderRisk, renderVerdict];
+  el.innerHTML = renderers[activeTab]();
+}
+
+function renderOverview() {
+  return `
+  <div class="gap-24">
+    <div class="grid-2">
+      <div class="card accent">
+        <div class="company-header">
+          <div class="company-badge wmt">W</div>
+          <div><div class="company-name">Walmart: Stay</div><div class="company-role">Group Director, Creative & Production</div></div>
+        </div>
+        <div class="grid-2">
+          <div><div class="stat-label">Yr 1 Total</div><div class="stat-value" style="color:var(--walmart)">$625K</div></div>
+          <div><div class="stat-label">Steady State</div><div class="stat-value" style="color:var(--walmart)">$584K</div><div class="stat-sub">/year</div></div>
+        </div>
+        <div class="info-box">Blue-chip equity (WMT at 40x P/E) · Team of 75 built from scratch · Known culture · No restrictive covenants</div>
+      </div>
+      <div class="card accent">
+        <div class="company-header">
+          <div class="company-badge m">M</div>
+          <div><div class="company-name">Macy's: Move</div><div class="company-role">SVP, Creative & Production</div></div>
+        </div>
+        <div class="grid-2">
+          <div><div class="stat-label">Yr 1 Total</div><div class="stat-value" style="color:var(--macys)">$673K</div></div>
+          <div><div class="stat-label">Steady State</div><div class="stat-value" style="color:var(--macys)">$796K</div><div class="stat-sub">/year</div></div>
+        </div>
+        <div class="info-box">$305K sign-on · SVP title (C-suite adjacent) · $450K base · Turnaround visibility · 5 RED contract flags</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="section-label">Headline Numbers</div>
+      <div class="grid-4">
+        <div><div class="stat-label">Annual Comp Gap</div><div class="stat-value" style="color:var(--accent-teal)">+$212K</div><div class="stat-sub">Macy's advantage at steady state</div></div>
+        <div><div class="stat-label">Forfeited RSUs</div><div class="stat-value" style="color:var(--red)">$400K</div><div class="stat-sub">WMT unvested equity left behind</div></div>
+        <div><div class="stat-label">5-Year Cumulative</div><div class="stat-value" style="color:var(--green)">+$1M+</div><div class="stat-sub">Additional comp over Walmart</div></div>
+        <div><div class="stat-label">Contract Flags</div><div class="stat-value" style="color:var(--red)">5 RED</div><div class="stat-sub">Must negotiate before signing</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="section-label">Forfeiture Recovery Timeline</div>
+      <div style="display:flex;align-items:center;gap:16px;padding:14px 0">
+        <div class="timeline-bar" style="width:100%">
+          <div class="timeline-track" style="left:0;right:0;background:var(--off-white)"></div>
+          <div class="timeline-track" style="left:0;width:30%;background:linear-gradient(90deg,var(--red),var(--yellow))"></div>
+          <div class="timeline-track" style="left:30%;width:70%;background:linear-gradient(90deg,var(--yellow),var(--green))"></div>
+          <div class="timeline-label" style="left:0;color:var(--muted)">Day 1: -$202K net gap</div>
+          <div class="timeline-label" style="left:28%;color:var(--yellow);font-weight:600">~12 months</div>
+          <div class="timeline-label" style="right:0;color:var(--green);font-weight:600">15 mo: breakeven</div>
+        </div>
+      </div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.6;margin-top:8px">
+        The ~$202K net forfeiture gap is recovered within 12 to 15 months of steady-state Macy's compensation. After that, every month is pure upside.
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderComp() {
+  const d = compData[activeYear];
+  const max = Math.max(d.walmart.total, d.macys.total);
+  const delta = d.macys.total - d.walmart.total;
+  const comps = [{k:"base",l:"Base Salary"},{k:"bonus",l:"Bonus (40%)"},{k:"equity",l:"RSU / LTI"},{k:"signon",l:"Sign-On"}];
+
+  function compCard(key, label, color, icon) {
+    return `<div class="card">
+      <div class="company-header">
+        <div class="company-badge ${key==="walmart"?"wmt":"m"}">${icon}</div>
+        <span class="company-name">${label}</span>
+        <span style="margin-left:auto;font-family:var(--font-display);font-size:24px;font-weight:900;color:${color};letter-spacing:-0.02em">${fmt(d[key].total)}</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        ${comps.map(c => `
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+              <span style="color:var(--muted)">${c.l}</span>
+              <span style="font-weight:600;color:${d[key][c.k]>0?"var(--dark)":"var(--muted)"}">${d[key][c.k]>0?fmt(d[key][c.k]):"n/a"}</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" style="width:${(d[key][c.k]/max)*100}%;background:${color}80"></div></div>
+          </div>
+        `).join("")}
+      </div>
+    </div>`;
+  }
+
+  return `
+  <div class="gap-24">
+    <div class="year-toggle">
+      ${Object.entries(yearLabels).map(([k,v]) =>
+        `<button class="year-btn${activeYear===k?" active":""}" onclick="setYear('${k}')">${v}</button>`
+      ).join("")}
+    </div>
+    <div class="grid-2">
+      ${compCard("walmart","Walmart","var(--walmart)","W")}
+      ${compCard("macys","Macy's","var(--macys)","M")}
+    </div>
+    <div class="card accent">
+      <div class="delta-card">
+        <div>
+          <div class="stat-label" style="text-align:left">${yearLabels[activeYear]} Delta</div>
+          <div class="delta-value" style="color:${delta>0?"var(--green)":"var(--red)"}">${delta>0?"+":""}${fmt(delta)}</div>
+        </div>
+        <div class="delta-context">${yearContext[activeYear]}</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="section-label">Equity Quality Comparison</div>
+      <div class="stock-grid">
+        <div class="stock-header" style="color:var(--muted)">Metric</div>
+        <div class="stock-header" style="color:var(--walmart);text-align:center">WMT</div>
+        <div class="stock-header" style="color:var(--macys);text-align:center">M</div>
+        ${stockData.map(r => `
+          <div class="stock-cell">${r.metric}</div>
+          <div class="stock-cell" style="font-weight:600;text-align:center">${r.wmt}</div>
+          <div class="stock-cell" style="font-weight:600;text-align:center">${r.m}</div>
+        `).join("")}
+      </div>
+      <div style="margin-top:14px;font-size:13px;color:var(--muted);line-height:1.6">
+        WMT RSUs are higher quality but fully priced at 40x P/E. M stock has more upside if the turnaround works, but the 52-week low of $9.76 signals real downside risk. Discount Macy's LTI by 20-30% for risk when comparing.
+      </div>
+    </div>
+  </div>`;
+}
+
+function setYear(y) { activeYear = y; renderPanels(); }
+
+function renderContract() {
+  const counts = { red:0, yellow:0, green:0 };
+  contractIssues.forEach(i => counts[i.severity]++);
+  const filtered = activeFilter === "all" ? contractIssues : contractIssues.filter(i => i.severity === activeFilter);
+
+  return `
+  <div class="gap-20">
+    <div class="grid-3">
+      ${[
+        {s:"red",l:"Must Escalate",c:counts.red,col:"var(--red)"},
+        {s:"yellow",l:"Should Negotiate",c:counts.yellow,col:"var(--yellow)"},
+        {s:"green",l:"Acceptable",c:counts.green,col:"var(--green)"},
+      ].map(x => `
+        <div class="card" style="cursor:pointer;border-left:4px solid ${x.col};opacity:${activeFilter!=="all"&&activeFilter!==x.s?0.5:1}" onclick="setFilter('${activeFilter===x.s?"all":x.s}')">
+          <div style="font-family:var(--font-display);font-size:28px;font-weight:900;color:${x.col};letter-spacing:-0.02em">${x.c}</div>
+          <div style="font-size:12px;color:var(--muted)">${x.l}</div>
+        </div>
+      `).join("")}
+    </div>
+    <div class="filter-bar">
+      ${[{f:"all",l:`All Issues (${contractIssues.length})`},{f:"red",l:`Red: Escalate (${counts.red})`},{f:"yellow",l:`Yellow: Negotiate (${counts.yellow})`},{f:"green",l:`Green: Acceptable (${counts.green})`}].map(x =>
+        `<button class="filter-btn${activeFilter===x.f?" active":""}" onclick="setFilter('${x.f}')">${x.l}</button>`
+      ).join("")}
+    </div>
+    <div class="gap-20" style="gap:8px">
+      ${filtered.map((issue, i) => {
+        const origIdx = contractIssues.indexOf(issue);
+        const isOpen = expandedIssue === origIdx;
+        const borderCol = issue.severity === "red" ? "var(--red)" : issue.severity === "yellow" ? "var(--yellow)" : "var(--green)";
+        const tierHtml = issue.tier ? `<span class="tier-badge" style="background:${tierColors[issue.tier]}15;color:${tierColors[issue.tier]};border:1px solid ${tierColors[issue.tier]}30">Tier ${issue.tier}: ${tierLabels[issue.tier]}</span>` : "";
+        return `
+        <div class="issue-row" style="border-left:3px solid ${borderCol}" onclick="toggleIssue(${origIdx})">
+          <div class="issue-header">
+            <span class="severity-badge ${issue.severity}"><span class="dot"></span>${sevLabels[issue.severity]}</span>
+            <span class="issue-name">${issue.item}</span>
+            <span class="issue-section">${issue.section}</span>
+            ${tierHtml}
+            <span class="issue-chevron${isOpen?" open":""}">▾</span>
+          </div>
+          <div class="issue-detail${isOpen?" open":""}">${issue.detail}</div>
+        </div>`;
+      }).join("")}
+    </div>
+  </div>`;
+}
+
+function setFilter(f) { activeFilter = f; expandedIssue = -1; renderPanels(); }
+function toggleIssue(i) { expandedIssue = expandedIssue === i ? -1 : i; renderPanels(); }
+
+function renderRisk() {
+  const macysRisks = [
+    { risk:"Turnaround fails / layoffs", sev:"HIGH", mit:"18-month severance ($675K) + 12 months COBRA provides runway", col:"var(--red)" },
+    { risk:"Non-compete locks out of industry for 12 months", sev:"HIGH", mit:"Negotiate scope; equity vests during non-compete period", col:"var(--red)" },
+    { risk:"Sign-on clawback if <2 year tenure", sev:"MEDIUM", mit:"Don't leave voluntarily before 2028", col:"var(--yellow)" },
+    { risk:"M stock declines, reducing LTI", sev:"MEDIUM", mit:"Base + bonus alone ($630K) still exceeds WMT total comp", col:"var(--yellow)" },
+    { risk:"Cultural fit / new team dynamics", sev:"MEDIUM", mit:"SVP sets culture; she's building, not inheriting", col:"var(--yellow)" },
+  ];
+  const stayRisks = [
+    { risk:"Career plateau / title stagnation", sev:"HIGH", mit:"Limited unless promoted to VP+ (unlikely per her assessment)", col:"var(--red)" },
+    { risk:"Opportunity cost of $200K+/year", sev:"HIGH", mit:"Compounds significantly over time", col:"var(--red)" },
+    { risk:"RSU grants compressed further", sev:"MEDIUM", mit:"Already cut from $200K to $100K once; could happen again", col:"var(--yellow)" },
+    { risk:"WMT stock correction from 40x P/E", sev:"MEDIUM", mit:"Diversify vested holdings; long-term WMT still strong", col:"var(--yellow)" },
+    { risk:"Team restructured / reorg", sev:"LOW", mit:"Strong position as team builder", col:"var(--green)" },
+  ];
+
+  function riskRows(risks) {
+    return risks.map(r => `
+      <div class="risk-grid">
+        <div class="risk-name">${r.risk}</div>
+        <span class="risk-sev" style="background:${r.col}15;color:${r.col}">${r.sev}</span>
+        <div class="risk-mit">${r.mit}</div>
+      </div>
+    `).join("");
+  }
+
+  return `
+  <div class="gap-24">
+    <div class="card" style="border-left:4px solid var(--macys)">
+      <div class="section-label" style="color:var(--macys)">Risk of Moving to Macy's</div>
+      ${riskRows(macysRisks)}
+    </div>
+    <div class="card" style="border-left:4px solid var(--walmart)">
+      <div class="section-label" style="color:var(--walmart)">Risk of Staying at Walmart</div>
+      ${riskRows(stayRisks)}
+    </div>
+    <div class="card accent">
+      <div class="section-label">Key Insight</div>
+      <div style="font-size:14px;color:var(--dark);line-height:1.7">
+        Both paths carry meaningful risk, but they're different kinds of risk. Staying at Walmart is a risk of stagnation and opportunity cost that compounds silently. Moving to Macy's is a risk of disruption and execution uncertainty that's front-loaded. The question is which risk she's better positioned to absorb, especially with a baby arriving June 2026.
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderVerdict() {
+  const moveItems = [
+    "Retain NY-barred employment counsel immediately",
+    'Narrow non-compete to competitive creative roles (not "any capacity")',
+    "Remove Amazon from named list or limit to Amazon Retail/Fashion only",
+    "Fix sign-on repayment to net-of-tax with pro-rata vesting",
+    "Delete court reformation clause (Section 7f)",
+    "Negotiate NY governing law for non-compete provisions",
+    "Document ALL verbal promises in a written addendum",
+  ];
+  const stayItems = [
+    "Have a direct conversation with leadership about VP+ promotion path",
+    "Use the $880K competing offer as retention leverage",
+    "Request RSU grant restoration to prior $200K level",
+    "Negotiate an accelerated promotion timeline with written milestones",
+    "The offer has value even if she doesn't accept it. Use it strategically",
+  ];
+
+  return `
+  <div class="gap-24">
+    <div class="card" style="border-top:4px solid var(--accent-teal);padding:32px">
+      <div style="font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--accent-teal);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:8px">Iconoclastic Capital Assessment</div>
+      <div style="font-family:var(--font-display);font-size:24px;font-weight:900;color:var(--deep-teal);margin-bottom:16px;line-height:1.3;letter-spacing:-0.02em">
+        The comp math strongly favors Macy's, but only if the contract is fixed first.
+      </div>
+      <div style="font-size:14px;color:var(--dark);line-height:1.8">
+        The numbers tell a clear story: ~$212K/year in incremental compensation at steady state, a meaningful SVP title jump, and direct C-suite reporting. Even risk-adjusted for Macy's stock volatility and turnaround uncertainty, the economic case is compelling. Over a 5-year horizon, we're looking at $1M+ in cumulative additional compensation.
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card" style="border-left:4px solid var(--macys)">
+        <div style="font-size:14px;font-weight:700;color:var(--macys);margin-bottom:12px">IF SHE MOVES: Critical Before Signing</div>
+        <div class="verdict-items">
+          ${moveItems.map(x => `<div class="verdict-item"><span class="verdict-arrow" style="color:var(--macys)">→</span><span>${x}</span></div>`).join("")}
+        </div>
+      </div>
+      <div class="card" style="border-left:4px solid var(--walmart)">
+        <div style="font-size:14px;font-weight:700;color:var(--walmart);margin-bottom:12px">IF SHE STAYS: Leverage the Offer</div>
+        <div class="verdict-items">
+          ${stayItems.map(x => `<div class="verdict-item"><span class="verdict-arrow" style="color:var(--walmart)">→</span><span>${x}</span></div>`).join("")}
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="section-label">The Real Question</div>
+      <div style="font-size:14px;color:var(--dark);line-height:1.8">
+        Career windows for title jumps like Group Director to SVP at a public company don't open often, and the $200K+ annual comp gap will compound. The non-financial factors (loving the job, a team of 75, WMT as the better long-term company, and a baby arriving in June) are legitimate counterweights. But they shouldn't be confused with the financial analysis, which clearly favors the move.
+      </div>
+      <div class="callout">
+        Bottom line: The contract as written has 5 red flags that need fixing before she signs anything. If those are resolved, the move to Macy's is the stronger financial and career play. If they can't be negotiated to reasonable terms, particularly the non-compete scope, that changes the calculus materially.
+      </div>
+    </div>
+    <div class="disclaimer">This analysis assists with decision-making but does not constitute financial or legal advice. Prepared by Iconoclastic Capital Management.</div>
+  </div>`;
+}
+
+renderTabs();
+renderPanels();
+</script>
+</body>
+</html>
